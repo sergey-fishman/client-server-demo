@@ -6,7 +6,7 @@ body{
     line-height: 1.6em;
 }
 .container{
-    width: 80%;
+    width: 60%;
     margin: auto;
     overflow: hidden;
 
@@ -50,7 +50,7 @@ input.valid{
     display: block;
 }
 table.users-table{
-    width: 80%;
+    width: 100%;
     margin: 20px auto;
     border-collapse: collapse;
     background: white;
