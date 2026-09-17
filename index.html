@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User form with database hosted locally">
+    <meta name="keywords" content="HTML,CSS,JavaScript,database,mySQL">
+    <meta name="author" content="John Doe">
+    <link rel="stylesheet" href="styles.css">
+    <title>User form</title>
+</head>
+
+<body>
+    <header id="mainHeader">
+        <div class="container">
+            <h1>Welcome to my web page!</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <h2>Input your full name</h2>
+        <form id="userForm">
+            <div class="field-wrapper">
+                <input type="text" id="firstName" placeholder="Sergio">
+                <div class="popup" id="firstNamePopup"></div>
+            </div>
+            <div class="field-wrapper">
+                <input type="text" id="lastName" placeholder="Leone">
+                <div class="popup" id="lastNamePopup"></div>
+            </div>
+            <button type="submit" id="submitBtn">Submit</button>
+        </form>
+        <p id="result"></p>
+    </div>
+
+    <script src="validation.js"></script>
+    <script src="submit-handler.js"></script>
+
+</body>
+
+</html>
