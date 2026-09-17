@@ -49,3 +49,26 @@ input.valid{
 .popup.show{
     display: block;
 }
+table.users-table{
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+}
+table.users-table th,
+table.users-table td{
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: left;
+}
+table.users-table th{
+    background: #333;
+    color: white;
+}
+table.users-table tr:nth-child(even){
+    background: #f7f7f7;
+}
+#mainHeader nav a{
+    color: white;
+    text-decoration: none;
+}
