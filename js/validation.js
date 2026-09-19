@@ -1,4 +1,4 @@
-// Регулярное выражение: только буквы (лат), дефис и пробел, 2-50 символов
+// Regular expression: Only english letters, space char and hyphen, 2-50 chars
 const NAME_REGEX = /^[A-Za-z\-\s]{2,50}$/;
 
 const firstNameInput = document.getElementById("firstName");
@@ -20,7 +20,7 @@ function validateField(value) {
     return null;
 }
 
-// Обновляет только рамку поля (красная/зелёная), без попапа
+// Updates only the field border
 function updateBorder(input){
     const error = validateField(input.value);
     input.classList.remove("valid", "invalid");
@@ -37,14 +37,14 @@ function hidePopup(popupElement){
     popupElement.classList.remove("show");
 }
 
-// Проверяем оба поля разом, возвращаем true/false
+// Ckeck both fields at once, return true/false
 function isFormValid() {
     const firstNameError = validateField(firstNameInput.value);
     const lastNameError = validateField(lastNameInput.value);
     return firstNameError === null && lastNameError === null;
 }
 
-// Показывает попапы у всех невалидных полей (вызывается при нажатии Submit)
+// Shows popup by each invalid field
 function showAllErrors() {
     const firstNameError = validateField(firstNameInput.value);
     const lastNameError = validateField(lastNameInput.value);
