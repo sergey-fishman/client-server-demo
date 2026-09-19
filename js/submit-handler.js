@@ -1,10 +1,10 @@
 document.getElementById("userForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // Перед отправкой на сервер проверяем валидность на клиенте ещё раз
+    // Check if the form is valid one more time before sending it to the server
     if (!isFormValid()) {
         showAllErrors();
-        return; // отправка на сервер блокируется
+        return; // sending to the server is blocked
     }
 
     const data = {
