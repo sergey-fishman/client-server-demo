@@ -182,9 +182,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         button.disabled = true;
         try {
-            await apiRequest(UPDATE_URL + "?id" + encodeURIComponent(row.dataset.id), {
+            await apiRequest(UPDATE_URL + "?id=" + encodeURIComponent(row.dataset.id), {
                 method: "PUT",
-                headers: { "Content_Type": "application/json" },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     first_name: firstInput.value.trim(),
                     last_name : lastInput.value.trim()
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         button.disabled = true;
         try {
-            await apiRequest(DELETE_URL + "?id" + encodeURIComponent(user.id), {
+            await apiRequest(DELETE_URL + "?id=" + encodeURIComponent(user.id), {
                 method: "DELETE"
             });
             if (await loadUsers()) {
