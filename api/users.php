@@ -2,9 +2,15 @@
 header("Content-Type: application/json");
 require __DIR__ . "/db.php";
 
+if($_SERVER["REQUEST_METHOD"] !== "GET") {
+    http_response_code(405);
+    header("Allow: GET");
+    echo json_encode(["error" => "Method not allowed, use GET"]);
+    exit;
+}
+
 $users = [];
-$result = $conn->query("SELECT id, first_name, last_name
-                        FROM users ORDER BY id DESC");
+$result = $conn->query("SELECT id, first_name, last_name FROM users ORDER BY id DESC");
 
 if($result) {
     while ($row = $result->fetch_assoc()) {
