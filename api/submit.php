@@ -38,7 +38,8 @@ if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
 // 4. 'JSON body must be an object' validation
 if (!is_object($data)) {
     http_response_code(422);
-    echo json_encode(["error" => "JSON body must be an object"])
+    echo json_encode(["error" => "JSON body must be an object"]);
+    exit;
 }
 
 // 5. Required fields check
@@ -52,13 +53,12 @@ foreach ($requiredFields as $field) {
 }
 
 if (!empty($missingFields)) {
-    http_response_code(422) {
-        echo json_encode([
-            "error" => "Missing required field(s): " . implode(", ", $missingFields),
-            "missing_fields" => $missingFields
+    http_response_code(422);
+    echo json_encode([
+        "error" => "Missing required field(s): " . implode(", ", $missingFields),
+        "missing_fields" => $missingFields
         ]);
-        exit;
-    }
+    exit;
 }
 
 //6. Field data type string validation
