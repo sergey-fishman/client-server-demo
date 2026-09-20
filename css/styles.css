@@ -72,3 +72,66 @@ table.users-table tr:nth-child(even){
     color: white;
     text-decoration: none;
 }
+
+/* ---------- Users table: actions, inline editing, messages ---------- */
+table.users-table td.actions{
+    white-space: nowrap;
+    width: 1%;
+}
+table.users-table td.empty{
+    text-align: center;
+    color: #666;
+}
+table.users-table td input{
+    font: inherit;
+}
+.btn{
+    padding: 4px 10px;
+    font: inherit;
+    font-size: 0.9em;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+}
+.btn + .btn{
+    margin-left: 6px;
+}
+.btn:hover{
+    background: #eee;
+}
+.btn:focus-visible{
+    outline: 2px solid #333;
+    outline-offset: 2px;
+}
+.btn:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.btn-primary{
+    background: #333;
+    color: white;
+}
+.btn-primary:hover{
+    background: #555;
+}
+.btn-danger{
+    border-color: #a30000;
+    color: #a30000;
+}
+.btn-danger:hover{
+    background: #ffe6e6;
+}
+.message{
+    margin: 12px 0 0;
+}
+.message:empty{
+    display: none;
+}
+.message.error{
+    color: #a30000;
+}
+.message.success{
+    color: #1b6e1b;
+}
