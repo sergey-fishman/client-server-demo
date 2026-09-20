@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json");
-require __DIR__"/db.php";
-require __DIR__"/helpers.php";
+require __DIR__ . "/db.php";
+require __DIR__ . "/helpers.php";
 
 // UPDATE: PUT api/update.php?id=5
 // Body: {"first_name": "...", "last_name": "..."}
