@@ -135,3 +135,11 @@ table.users-table td input{
 .message.success{
     color: #1b6e1b;
 }
+@media(max-width: 600px){
+    .container{
+        width: 100%;
+    }
+    #usersTable{
+        margin-top: 0px;
+    }
+}

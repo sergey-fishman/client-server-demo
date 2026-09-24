@@ -12,7 +12,7 @@ document.getElementById("userForm").addEventListener("submit", async function (e
         last_name: document.getElementById("lastName").value
     };
 
-    const response = await fetch("api/submit.php", {
+    const response = await fetch("api/users.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)

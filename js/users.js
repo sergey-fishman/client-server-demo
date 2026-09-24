@@ -1,8 +1,9 @@
 // Requires name-rules.js (validateField) to be loaded before this file
 
-const USERS_URL = "api/users.php"; // READ (GET)
-const UPDATE_URL = "api/update.php"; // UPDATE (PUT ?id=N)
-const DELETE_URL = "api/delete.php"; // DELETE (DELETE ?id=N)
+// Single REST resource: same URL, the HTTP method decides the operation
+// GET api/users.php -> list, POST -> create, PUT ?id=N -> update, DELETE ?id=N -> delete
+
+const USERS_URL = "api/users.php";
 
 document.addEventListener("DOMContentLoaded", function () {
     const tableBody = document.getElementById("usersTableBody");
@@ -144,8 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
             createInputCell("first_name", user.first_name),
             createInputCell("last_name", user.last_name),
             createActionsCell(
-                createButton("Save changes", "save", "btn-primary"),
-                createButton("Cancel", "cancel")
+                createButton("Cancel", "cancel"),
+                createButton("Save", "save", "btn-primary")
             )
         );
         row.querySelector("input").focus();
@@ -182,12 +183,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         button.disabled = true;
         try {
-            await apiRequest(UPDATE_URL + "?id=" + encodeURIComponent(row.dataset.id), {
+            await apiRequest(USERS_URL + "?id=" + encodeURIComponent(row.dataset.id), {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     first_name: firstInput.value.trim(),
-                    last_name : lastInput.value.trim()
+                    last_name: lastInput.value.trim()
                 })
             });
             if (await loadUsers()) {
@@ -209,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         button.disabled = true;
         try {
-            await apiRequest(DELETE_URL + "?id=" + encodeURIComponent(user.id), {
+            await apiRequest(USERS_URL + "?id=" + encodeURIComponent(user.id), {
                 method: "DELETE"
             });
             if (await loadUsers()) {

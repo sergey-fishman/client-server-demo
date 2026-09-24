@@ -1,5 +1,5 @@
 <?php
-// Shared helpers for all API endpoints (submit.php, update.php, delete.php)
+// Shared helpers for users.php
 
 const NAME_PATTERN = '/^[A-Za-z\-\s]{2,50}$/';
 
@@ -8,14 +8,6 @@ function sendJson(int $status, array $payload): void {
     http_response_code($status);
     echo json_encode($payload);
     exit;
-}
-
-// Methos validation: the endpoint accepts only one HTTP method
-function requireMethod(string $method): void {
-    if ($_SERVER["REQUEST_METHOD"] !== $method) {
-        header("Allow: $method");
-        sendJson(405, ["error" => "Only $method method is allowed"]);
-    }
 }
 
 // Content-Type validation, reading and parsing the body.
