@@ -1,7 +1,7 @@
 <?php
 // Shared helpers for users.php
 
-const NAME_PATTERN = '/^[A-Za-z\-\s]{2,50}$/';
+const NAME_PATTERN = '/^[A-Za-z\-\s]{2,30}$/';
 
 // Sends a JSON response with the given HTTP status code and stops the script
 function sendJson(int $status, array $payload): void {
@@ -75,7 +75,7 @@ function validateUserPayload(object $data): array {
 
     // Regular expression
     if(!preg_match(NAME_PATTERN, $firstName) || !preg_match(NAME_PATTERN, $lastName)) {
-        sendJson(422, ["error" => "Only space, hyphen and letters allowed, up to 50 symbols in total"]);
+        sendJson(422, ["error" => "Only space, hyphen and letters allowed, up to 30 symbols in total"]);
     }
 
     return [$firstName, $lastName];

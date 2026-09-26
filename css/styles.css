@@ -9,7 +9,6 @@ body{
     width: 60%;
     margin: auto;
     overflow: hidden;
-
 }
 #mainHeader{
     background: #333;
@@ -49,8 +48,13 @@ input.valid{
 .popup.show{
     display: block;
 }
+.table-scroll{
+    width: 100%;
+    overflow-x: auto;
+}
 table.users-table{
     width: 100%;
+    min-width: 100%;
     margin: 20px auto;
     border-collapse: collapse;
     background: white;
@@ -60,6 +64,7 @@ table.users-table td{
     border: 1px solid #ccc;
     padding: 8px 12px;
     text-align: left;
+    white-space: nowrap;
 }
 table.users-table th{
     background: #333;
@@ -135,11 +140,8 @@ table.users-table td input{
 .message.success{
     color: #1b6e1b;
 }
-@media(max-width: 600px){
+@media(max-width: 900px){
     .container{
         width: 100%;
-    }
-    #usersTable{
-        margin-top: 0px;
     }
 }
