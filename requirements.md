@@ -24,14 +24,14 @@
 2. Clicking the button prompts client-side input field validation.
 	- If client-side input field validation passed, clicking the button creates a new contact.
 
-### 6. contacts table
+### 6. Contacts table
 1. If empty shows "No contacts found yet" message.
 2. Otherwise renders contacts ordered by id DESC.
 3. **Actions:** has two buttons: Edit, Delete.
 	- **Edit:** has two buttons: Cancel, Save.
 		- **Cancel:** cancels editing mode.
 		- **Save:** prompts client-side input field validation.
-			- If client-side input field validation passed, clicking the button updates a contact.
+			+ If client-side input field validation passed, clicking the button updates a contact.
 	- **Delete:** prompts an alert message: "Delete {full_name, phone_number}?"
 		- **Alert message:** has two options: OK, Cancel.
 
@@ -41,12 +41,12 @@
 
 ### 8. API
 - **contacts**
-	+ GET /api/contacts.php
-	+ POST /api/contacts.php
-	+ UPDATE /api/contacts.php?id=N
-	+ DELETE /api/contacts.php?id=N
+	- GET /api/contacts.php
+	- POST /api/contacts.php
+	- UPDATE /api/contacts.php?id=N
+	- DELETE /api/contacts.php?id=N
 
-## contact stories
+## User stories
 ### 1. As a User, I want to enter any full_name and phone_number so that it is saved into a database.
 #### Acceptance criteria
 + contact form GUI is completed and contains full_name, phone_number input fields, submit button.
