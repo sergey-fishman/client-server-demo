@@ -1,17 +1,17 @@
-// Requires name-rules.js (validateField) to be loaded before this file
+// Requires name-rules.js (validateFullName, validatePhone) to be loaded before this file
 
 // Single REST resource: same URL, the HTTP method decides the operation
-// GET api/users.php -> list, POST -> create, PUT ?id=N -> update, DELETE ?id=N -> delete
+// GET api/contacts.php -> list, POST -> create, PUT ?id=N -> update, DELETE ?id=N -> delete
 
-const USERS_URL = "api/users.php";
+const CONTACTS_URL = "api/contacts.php";
 
 document.addEventListener("DOMContentLoaded", function () {
-    const tableBody = document.getElementById("usersTableBody");
-    const table = document.getElementById("usersTable");
-    const message = document.getElementById("usersMessage");
+    const tableBody = document.getElementById("contactsTableBody");
+    const table = document.getElementById("contactsTable");
+    const message = document.getElementById("contactsMessage");
 
-    // Last loaded users by id: needed to restore a row on "Cancel"
-    let usersById = {};
+    // Last loaded contacts  by id: needed to restore a row on "Cancel"
+    let contactsById = {};
 
     // ---------- messages ---------
 
@@ -44,20 +44,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (!response.ok || !result || result.error) {
-            throw new Error((result && result.error) || "Error loading users");
+            throw new Error((result && result.error) || "Error loading contacts");
         }
         return result;
     }
 
     // Returns true if the table was refreshed successfully
-    async function loadUsers() {
+    async function loadContacts() {
         try {
-            const result = await apiRequest(USERS_URL);
-            usersById = {};
-            result.users.forEach(function (user) {
-                usersById[user.id] = user;
+            const result = await apiRequest(CONTACTS_URL);
+            contactsById = {};
+            result.contacts.forEach(function (contact) {
+                contactsById[contact.id] = contact;
             });
-            renderUsers(result.users);
+            renderContacts(result.contacts);
             table.style.display = "";
             return true;
         } catch (err) {
@@ -93,24 +93,24 @@ document.addEventListener("DOMContentLoaded", function () {
         return td;
     }
 
-    function createInputCell(name, value) {
+    function createInputCell(name, value, ariaLabel) {
         const td = document.createElement("td");
         const input = document.createElement("input");
-        input.type = "text";
+        input.type = name === "phone_number" ? "tel" : "text";
         input.name = name;
         input.value = value;
-        input.setAttribute("aria-label", name === "first_name" ? "First name" : "Last Name");
+        input.setAttribute("aria-label", ariaLabel);
         td.appendChild(input);
         return td;
     }
 
     // Normal (read-only) row
-    function createRow(user) {
+    function createRow(contact) {
         const row = document.createElement("tr");
-        row.dataset.id = user.id;
-        row.appendChild(createCell(user.id));
-        row.appendChild(createCell(user.first_name));
-        row.appendChild(createCell(user.last_name));
+        row.dataset.id = contact.id;
+        row.appendChild(createCell(contact.id));
+        row.appendChild(createCell(contact.full_name));
+        row.appendChild(createCell(contact.phone_number));
         row.appendChild(createActionsCell(
             createButton("Edit", "edit"),
             createButton("Delete", "delete", "btn-danger")
@@ -118,12 +118,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return row;
     }
 
-    function renderUsers(users) {
+    function renderContacts(contact) {
         tableBody.replaceChildren();
 
-        if (users.length === 0) {
+        if (contact.length === 0) {
             const row = document.createElement("tr");
-            const cell = createCell("No users found yet");
+            const cell = createCell("No contacts found yet");
             cell.colSpan = 4;
             cell.className = "empty";
             row.appendChild(cell);
@@ -131,19 +131,19 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        users.forEach(function (user) {
-            tableBody.appendChild(createRow(user))
+        contact.forEach(function (contact) {
+            tableBody.appendChild(createRow(contact))
         });
     }
 
     // --------- edit mode ---------
 
     function enterEditMode(row) {
-        const user = usersById[row.dataset.id];
+        const contact = contactsById[row.dataset.id];
         row.replaceChildren(
-            createCell(user.id),
-            createInputCell("first_name", user.first_name),
-            createInputCell("last_name", user.last_name),
+            createCell(contact.id),
+            createInputCell("full_name", contact.full_name, "Full name"),
+            createInputCell("phone_number", contact.phone_number, "Phone number"),
             createActionsCell(
                 createButton("Cancel", "cancel"),
                 createButton("Save", "save", "btn-primary")
@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function leaveEditMode(row) {
-        row.replaceWith(createRow(usersById[row.dataset.id]));
+        row.replaceWith(createRow(contactsById[row.dataset.id]));
     }
 
     function markInput(input, error) {
@@ -161,37 +161,41 @@ document.addEventListener("DOMContentLoaded", function () {
         input.classList.add(error ? "invalid" : "valid");
     }
 
+    function validatorFor(input) {
+        return input.name === "phone_number" ? validatePhone : validateFullName;
+    }
+
     // --------- UPDATE ----------
 
     async function saveRow(row, button) {
         if (!button || button.disabled) return;
 
-        const firstInput = row.querySelector('input[name="first_name"]');
-        const lastInput = row.querySelector('input[name="last_name"]');
-        const firstError = validateField(firstInput.value);
-        const lastError = validateField(lastInput.value);
+        const fullNameInput = row.querySelector('input[name="full_name"]');
+        const phoneInput = row.querySelector('input[name="phone_number"]');
+        const fullNameError = validateFullName(fullNameInput.value);
+        const phoneError = validatePhone(phoneInput.value);
 
-        markInput(firstInput, firstError);
-        markInput(lastInput, lastError);
+        markInput(fullNameInput, fullNameError);
+        markInput(phoneInput, phoneError);
 
         // Client-side check first; the server validates the same rules again
-        if (firstError || lastError) {
-            showMessage(firstError ? "First name " + firstError : "Last name " + lastError, "error");
-            (firstError ? firstInput : lastInput).focus();
+        if (fullNameError || phoneError) {
+            showMessage(fullNameError ? "Full name: " + fullNameError : "Phone number: " + phoneError, "error");
+            (fullNameError ? fullNameInput : phoneInput).focus();
             return;
         }
 
         button.disabled = true;
         try {
-            await apiRequest(USERS_URL + "?id=" + encodeURIComponent(row.dataset.id), {
+            await apiRequest(CONTACTS_URL + "?id=" + encodeURIComponent(row.dataset.id), {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    first_name: firstInput.value.trim(),
-                    last_name: lastInput.value.trim()
+                    full_name: fullNameInput.value.trim(),
+                    phone_number: phoneInput.value.trim()
                 })
             });
-            if (await loadUsers()) {
+            if (await loadContacts()) {
                 showMessage("Changes saved", "success");
             }
         } catch (err) {
@@ -203,18 +207,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // ------------ DELETE ------------
 
     async function deleteRow(row, button) {
-        const user = usersById[row.dataset.id];
-        if (!confirm("Delete " + user.first_name + " " + user.last_name + " (ID " + user.id + ")?")) {
+        const contact = contactsById[row.dataset.id];
+        if (!confirm("Delete " + contact.full_name + " (ID " + contact.id + ")?")) {
             return;
         }
 
         button.disabled = true;
         try {
-            await apiRequest(USERS_URL + "?id=" + encodeURIComponent(user.id), {
+            await apiRequest(CONTACTS_URL + "?id=" + encodeURIComponent(contact.id), {
                 method: "DELETE"
             });
-            if (await loadUsers()) {
-                showMessage("User deleted", "success");
+            if (await loadContacts()) {
+                showMessage("Contact deleted", "success");
             }
         } catch (err) {
             button.disabled = false;
@@ -250,7 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Live validation while typing (same border logic as on the form page)
     tableBody.addEventListener("input", function (e) {
         if (e.target.matches("input[name]")) {
-            markInput(e.target, validateField(e.target.value));
+            markInput(e.target, validatorFor(e.target)(e.target.value));
         }
     });
 
@@ -268,5 +272,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    loadUsers();
+    loadContacts();
 });

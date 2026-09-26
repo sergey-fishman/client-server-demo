@@ -1,7 +1,9 @@
 <?php
-// Shared helpers for users.php
+// Shared helpers for the contacts API (api/contacts.php)
 
-const NAME_PATTERN = '/^[A-Za-z\-\s]{2,30}$/';
+// const NAME_PATTERN = '/^[A-Za-z\-\s]{2,50}$/';
+const NAME_PATTERN = '/^(?=.{2,60}$)\p{L}+(?:[ -\'\x{2019}]\p{L}+)*$/u';
+const PHONE_PATTERN = '/^\+[1-9]\d{6,14}$/';
 
 // Sends a JSON response with the given HTTP status code and stops the script
 function sendJson(int $status, array $payload): void {
@@ -32,10 +34,10 @@ function readJsonObject(): object {
     return $data;
 }
 
-// Validates first_name and last_name from the request body.
-// Returns [$firstName, $lastName] (trimmed) or stops with an error.
-function validateUserPayload(object $data): array {
-    $requiredFields = ["first_name", "last_name"];
+// Validates full_name and phone_number from the request body.
+// Returns [$fullName, $phoneNumber] (trimmed) or stops with an error.
+function validateContactPayload(object $data): array {
+    $requiredFields = ["full_name", "phone_number"];
 
     // Required fields check
     $missingFields = [];
@@ -65,20 +67,25 @@ function validateUserPayload(object $data): array {
         ]);
     }
 
-    $firstName = trim($data->first_name); // '->' gets an object property in PHP
-    $lastName = trim($data->last_name);
+    $fullName = trim($data->full_name); // '->' gets an object property in PHP
+    $phoneNumber = trim($data->phone_number);
 
     // Input fields cannot be empty
-    if ($firstName === "" || $lastName === "") {
+    if ($fullName === "" || $phoneNumber === "") {
         sendJson(422, ["error" => "Input fields cannot be empty"]);
     }
 
-    // Regular expression
-    if(!preg_match(NAME_PATTERN, $firstName) || !preg_match(NAME_PATTERN, $lastName)) {
-        sendJson(422, ["error" => "Only space, hyphen and letters allowed, up to 30 symbols in total"]);
+    // Regular expression for the full name
+    if(!preg_match(NAME_PATTERN, $fullName)) {
+        sendJson(422, ["error" => "Name field supporst letters, spaces, hyphens and apostrophes, 60 chars max"]);
     }
 
-    return [$firstName, $lastName];
+    // Regular expression for the phone number
+    if(!preg_match(PHONE_PATTERN, $phoneNumber)) {
+        sendJson(422, ["error" => "Phone number must start with '+', contain a country code and 7 to 15 digits in total, with no spaces"]);
+    }
+
+    return [$fullName, $phoneNumber];
 }
 
 // Reads the user id from the query string (?id=5) and validates it
@@ -90,9 +97,9 @@ function getIdFromQuery(): int {
     return $id;
 }
 
-// Checks if user with this id exists
-function userExists(mysqli $conn, int $id): bool {
-    $stmt = $conn->prepare("SELECT 1 FROM users WHERE id = ?");
+// Checks if contact with this id exists
+function contactExists(mysqli $conn, int $id): bool {
+    $stmt = $conn->prepare("SELECT 1 FROM contacts WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $stmt->store_result();

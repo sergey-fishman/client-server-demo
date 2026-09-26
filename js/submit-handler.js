@@ -1,4 +1,4 @@
-document.getElementById("userForm").addEventListener("submit", async function (e) {
+document.getElementById("contactForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     // Check if the form is valid one more time before sending it to the server
@@ -8,11 +8,11 @@ document.getElementById("userForm").addEventListener("submit", async function (e
     }
 
     const data = {
-        first_name: document.getElementById("firstName").value,
-        last_name: document.getElementById("lastName").value
+        full_name: document.getElementById("fullName").value,
+        phone_number: document.getElementById("phoneNumber").value
     };
 
-    const response = await fetch("api/users.php", {
+    const response = await fetch("api/contacts.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)

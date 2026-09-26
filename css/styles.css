@@ -52,25 +52,25 @@ input.valid{
     width: 100%;
     overflow-x: auto;
 }
-table.users-table{
+table.contacts-table{
     width: 100%;
     min-width: 100%;
     margin: 20px auto;
     border-collapse: collapse;
     background: white;
 }
-table.users-table th,
-table.users-table td{
+table.contacts-table th,
+table.contacts-table td{
     border: 1px solid #ccc;
     padding: 8px 12px;
     text-align: left;
     white-space: nowrap;
 }
-table.users-table th{
+table.contacts-table th{
     background: #333;
     color: white;
 }
-table.users-table tr:nth-child(even){
+table.contacts-table tr:nth-child(even){
     background: #f7f7f7;
 }
 #mainHeader nav a{
@@ -78,16 +78,16 @@ table.users-table tr:nth-child(even){
     text-decoration: none;
 }
 
-/* ---------- Users table: actions, inline editing, messages ---------- */
-table.users-table td.actions{
+/* ---------- Contacts table: actions, inline editing, messages ---------- */
+table.contacts-table td.actions{
     white-space: nowrap;
     width: 1%;
 }
-table.users-table td.empty{
+table.contacts-table td.empty{
     text-align: center;
     color: #666;
 }
-table.users-table td input{
+table.contacts-table td input{
     font: inherit;
 }
 .btn{

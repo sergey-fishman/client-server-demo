@@ -4,31 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="User form with database hosted locally">
+    <meta name="description" content="Contact form with database hosted locally">
     <meta name="keywords" content="HTML,CSS,JavaScript,database,mySQL">
     <meta name="author" content="John Doe">
     <link rel="stylesheet" href="css/styles.css">
-    <title>User form</title>
+    <title>Contact form</title>
 </head>
 
 <body>
     <header id="mainHeader">
         <div class="container">
             <h1>Welcome to Main page!</h1>
-            <nav><a href="users.html">Users &rarr;</a></nav>
+            <nav><a href="contacts.html">Contacts &rarr;</a></nav>
         </div>
     </header>
 
     <div class="container">
-        <h2>Input your full name</h2>
-        <form id="userForm">
+        <h2>Input your Full name and phone number</h2>
+        <form id="contactForm">
             <div class="field-wrapper">
-                <input type="text" id="firstName" placeholder="Sergio">
-                <div class="popup" id="firstNamePopup"></div>
+                <input type="text" id="fullName" placeholder="Alexander-Arnold O'Connor">
+                <div class="popup" id="fullNamePopup"></div>
             </div>
             <div class="field-wrapper">
-                <input type="text" id="lastName" placeholder="Leone">
-                <div class="popup" id="lastNamePopup"></div>
+                <input type="tel" id="phoneNumber" placeholder="+14155552671">
+                <div class="popup" id="phoneNumberPopup"></div>
             </div>
             <button type="submit" id="submitBtn">Submit</button>
         </form>

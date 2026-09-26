@@ -4,40 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="List of users stored in the database">
+    <meta name="description" content="List of contacts stored in the database">
     <link rel="stylesheet" href="css/styles.css">
-    <title>Users</title>
+    <title>Contacts</title>
 </head>
 
 <body>
     <header id="mainHeader">
         <div class="container">
-            <h1>Users page</h1>
+            <h1>Contacts page</h1>
             <nav><a href="index.html">&larr; Back to form</a></nav>
         </div>
     </header>
 
     <div class="container">
-        <p id="usersMessage" class="message" role="status"></p>
+        <p id="contactsMessage" class="message" role="status"></p>
         <div class="table-scroll">
-            <table class="users-table" id="usersTable">
+            <table class="contacts-table" id="contactsTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>First name</th>
-                        <th>Last name</th>
+                        <th>Full name</th>
+                        <th>Phone number</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody id="usersTableBody">
-                    <!-- filled through users.js -->
+                <tbody id="contactsTableBody">
+                    <!-- is filled by contacts.js -->
                 </tbody>
             </table>
         </div>
     </div>
 
     <script src="js/name-rules.js"></script>
-    <script src="js/users.js"></script>
+    <script src="js/contacts.js"></script>
 </body>
 
 </html>

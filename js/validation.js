@@ -1,14 +1,13 @@
-// NAME_REGEX and validateField() live in name-rules.js (it must be loaded before this file)
+// validateFullname() and validatePhone() live in name-rules.js (it must be loaded before this file)
 
-const firstNameInput = document.getElementById("firstName");
-const lastNameInput = document.getElementById("lastName");
-const firstNamePopup = document.getElementById("firstNamePopup");
-const lastNamePopup = document.getElementById("lastNamePopup");
-
+const fullNameInput = document.getElementById("fullName");
+const phoneNumberInput = document.getElementById("phoneNumber");
+const fullNamePopup = document.getElementById("fullNamePopup");
+const phoneNumberPopup = document.getElementById("phoneNumberPopup");
 
 // Updates only the field border
-function updateBorder(input){
-    const error = validateField(input.value);
+function updateBorder(input, validator){
+    const error = validator(input.value);
     input.classList.remove("valid", "invalid");
     input.classList.add(error ? "invalid" : "valid");
     return error;
@@ -25,38 +24,39 @@ function hidePopup(popupElement){
 
 // Ckeck both fields at once, return true/false
 function isFormValid() {
-    const firstNameError = validateField(firstNameInput.value);
-    const lastNameError = validateField(lastNameInput.value);
-    return firstNameError === null && lastNameError === null;
+    const fullNameError = validateFullName(fullNameInput.value);
+    const phoneNumberError = validatePhone(phoneNumberInput.value);
+    return fullNameError === null && phoneNumberError === null;
 }
 
-// Shows popup by each invalid field
+// Shows popup at each invalid field
 function showAllErrors() {
-    const firstNameError = validateField(firstNameInput.value);
-    const lastNameError = validateField(lastNameInput.value);
+    const fullNameError = validateFullName(fullNameInput.value);
+    const phoneNumberError = validatePhone(phoneNumberInput.value);
 
-    if (firstNameError) {
-        showPopup(firstNamePopup, firstNameError);
+    if (fullNameError) {
+        showPopup(fullNamePopup, fullNameError);
     }
-    if (lastNameError) {
-        showPopup(lastNamePopup, lastNameError);
+    if (phoneNumberError) {
+        showPopup(phoneNumberPopup, phoneNumberError);
     }
 }
+
 // Live input update: border color changes, popup hides as soon as the input is valid
-firstNameInput.addEventListener("input", () => {
-    const error = updateBorder(firstNameInput);
+fullNameInput.addEventListener("input", () => {
+    const error = updateBorder(fullNameInput, validateFullName);
     if (!error) {
-        hidePopup(firstNamePopup);
-    } else if (firstNamePopup.classList.contains("show")) {
-        showPopup(firstNamePopup, error);
+        hidePopup(fullNamePopup);
+    } else if (fullNamePopup.classList.contains("show")) {
+        showPopup(fullNamePopup, error);
     }
 });
 
-lastNameInput.addEventListener("input", () => {
-    const error = updateBorder(lastNameInput);
+phoneNumberInput.addEventListener("input", () => {
+    const error = updateBorder(phoneNumberInput, validatePhone);
     if (!error) {
-        hidePopup(lastNamePopup);
-    } else if (lastNamePopup.classList.contains("show")) {
-        showPopup(lastNamePopup, error);
+        hidePopup(phoneNumberPopup);
+    } else if (phoneNumberPopup.classList.contains("show")) {
+        showPopup(phoneNumberPopup, error);
     }
 });

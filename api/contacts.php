@@ -4,11 +4,11 @@ require __DIR__ . "/db.php";
 require __DIR__ . "/helpers.php";
 
 /*
-Single REST resource for the "users" table.
-GET api/users.php -> list all users
-POST api/users.php -> create a user; body: {"first_name","last_name"}
-PUT api/users.php -> update a user; body: {"first_name","last_name"}
-DELETE api/users.php -> delete a user
+Single REST resource for the "contacts" table.
+GET api/contacts.php -> list all contacts
+POST api/contacts.php -> create a contact; body: {"full_name","phone_number"}
+PUT api/contacts.php?id=N -> update a contact; body: {"full_name","phone_number"}
+DELETE api/contacts.php?id=N -> delete a contact
 */
 
 switch ($_SERVER["REQUEST_METHOD"]) {
@@ -32,32 +32,30 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 // --------- READ --------
 
 function handleGet(mysqli $conn): void {
-    $result = $conn->query("SELECT id, first_name, last_name FROM users ORDER BY id DESC");
+    $result = $conn->query("SELECT id, full_name, phone_number FROM contacts ORDER BY id DESC");
 
     if (!$result) {
         $conn->close();
         sendJson(500, ["error" => "Error reading from DB"]);
     }
-
-    $users = [];
+    $contacts = [];
     while ($row = $result->fetch_assoc()) {
-        $users[] = $row;
+        $contacts[] = $row;
     }
     $result->free();
     $conn->close();
-
-    sendJson(200, ["status" => "success", "users" => $users]);
+    sendJson(200, ["status" => "success", "contacts" => $contacts]);
 }
 
 // --------- CREATE ----------
 
 function handlePost(mysqli $conn): void {
     $data = readJsonObject();
-    [$firstName, $lastName] = validateUserPayload($data);
+    [$fullName, $phoneNumber] = validateContactPayload($data);
 
     // Write to DB via prepared statement (protection against SQL-injections)
-    $stmt = $conn->prepare("INSERT INTO users (first_name, last_name) VALUES (?, ?)");
-    $stmt->bind_param("ss", $firstName, $lastName);
+    $stmt = $conn->prepare("INSERT INTO contacts (full_name, phone_number) VALUES (?, ?)");
+    $stmt->bind_param("ss", $fullName, $phoneNumber);
 
     if ($stmt->execute()) {
         $newId = $stmt->insert_id;
@@ -76,10 +74,10 @@ function handlePost(mysqli $conn): void {
 function handlePut(mysqli $conn): void {
     $id = getIdFromQuery();
     $data = readJsonObject();
-    [$firstName, $lastName] = validateUserPayload($data);
+    [$fullName, $phoneNumber] = validateContactPayload($data);
 
-    $stmt = $conn->prepare("UPDATE users SET first_name = ?, last_name = ? WHERE id = ?");
-    $stmt->bind_param("ssi", $firstName, $lastName, $id);
+    $stmt = $conn->prepare("UPDATE contacts SET full_name = ?, phone_number = ? WHERE id = ?");
+    $stmt->bind_param("ssi", $fullName, $phoneNumber, $id);
 
     if (!$stmt->execute()) {
         $stmt->close();
@@ -96,17 +94,17 @@ function handlePut(mysqli $conn): void {
        So with 0 we have to check separately that the row really exists.
     */
 
-    if ($affectedRows === 0 && !userExists($conn, $id)) {
+    if ($affectedRows === 0 && !contactExists($conn, $id)) {
         $conn->close();
-        sendJson(404, ["error" => "User not found"]);
+        sendJson(404, ["error" => "Contact not found"]);
     }
 
     $conn->close();
     sendJson(200, [
         "status" => "success",
         "id" => $id,
-        "first_name" => $firstName,
-        "last_name" => $lastName
+        "full_name" => $fullName,
+        "phone_number" => $phoneNumber
     ]);
 }
 
@@ -115,7 +113,7 @@ function handlePut(mysqli $conn): void {
 function handleDelete(mysqli $conn): void {
     $id = getIdFromQuery();
 
-    $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+    $stmt = $conn->prepare("DELETE FROM contacts WHERE id = ?");
     $stmt->bind_param("i", $id);
 
     if (!$stmt->execute()) {
@@ -129,7 +127,7 @@ function handleDelete(mysqli $conn): void {
     $conn->close();
 
     if ($affectedRows === 0) {
-        sendJson(404, ["error" => "User not found"]);
+        sendJson(404, ["error" => "Contact not found"]);
     }
 
     sendJson(200, ["status" => "success", "id" => $id]);
