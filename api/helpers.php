@@ -2,7 +2,7 @@
 // Shared helpers for the contacts API (api/contacts.php)
 
 // const NAME_PATTERN = '/^[A-Za-z\-\s]{2,50}$/';
-const NAME_PATTERN = '/^(?=.{2,60}$)\p{L}+(?:[ -\'\x{2019}]\p{L}+)*$/u';
+const NAME_PATTERN = '/^(?=.{2,60}$)\p{L}+(?:[ \'\x{2019}-]\p{L}+)*$/u';
 const PHONE_PATTERN = '/^\+[1-9]\d{6,14}$/';
 
 // Sends a JSON response with the given HTTP status code and stops the script
@@ -77,7 +77,7 @@ function validateContactPayload(object $data): array {
 
     // Regular expression for the full name
     if(!preg_match(NAME_PATTERN, $fullName)) {
-        sendJson(422, ["error" => "Name field supporst letters, spaces, hyphens and apostrophes, 60 chars max"]);
+        sendJson(422, ["error" => "Name can start and end with a letter, can contain not more than one space, hyphen or quotation mark between. 2-60 chars"]);
     }
 
     // Regular expression for the phone number

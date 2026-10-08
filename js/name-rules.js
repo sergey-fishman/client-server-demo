@@ -4,11 +4,11 @@
 // const NAME_REGEX = /^[A-Za-z\-\s]{2,50}$/;
 
 // Updated regExp supports Unicode, \-\, \'\, \s\
-const NAME_REGEX = /^(?=.{2,60}$)\p{L}+(?:[ -'\u{2019}]\p{L}+)*$/u;
+const NAME_REGEX = /^(?=.{2,60}$)\p{L}+(?:[ '\u{2019}-]\p{L}+)*$/u;
 
 
 // Regular expression: universal international phone format.
-// Starts with '+', followed by 7 to 15 digits total (country code + number), no spaces.
+// Starts with '+', followe by one digit [1-9], followed by 6 to 14 digits (country code + number), no spaces.
 const PHONE_REGEX = /^\+[1-9]\d{6,14}$/;
 
 // Returns an error message or null if the full name is valid
@@ -21,7 +21,7 @@ function validateFullName(value) {
     if (value.length > 60)
         return "Maximum 60 chars";
     if (!NAME_REGEX.test(value))
-        return "Name field supporst letters, spaces, hyphens and apostrophes";
+        return "Name can start and end with a letter, can contain not more than one space, hyphen or quotation mark between";
     return null;
 }
 
