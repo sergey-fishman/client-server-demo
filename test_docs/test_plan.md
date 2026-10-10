@@ -28,9 +28,12 @@
 * Integration Testing (api and database integration)
 * System Testing (end-to-end)
 
+ 
+The main approach is black-box testing; white-box techniques (code review) are used as an addition.
 ### 3.2. Test types
 * **Functional:** business-logic test, UI, form validation, table functionality.
 * **Non-functional:** UX usability, cross-browser compatibility(Chrome, Firefox, Safari).
+* The main approach is **black-box** testing; **white-box** techniques (code review) are used as an addition.
 
 ### 3.3. Automation
 * **Manual:** 100%: all functional tests + non-functional.

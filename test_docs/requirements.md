@@ -27,7 +27,7 @@
 	- REQ-3-1-4. **DELETE** /api/contacts.php?id=N
 
 ### REQ-4. Input fields
-- REQ-4-1. **Full name:** Name field supports Unicode  letters, must start and end with a letter. A letter can be followed by one of the allowed delimiters, which are: space, hyphen, quotation mark (U+0027). 2-60 characters.
+- REQ-4-1. **Full name:** Name field supports Unicode  letters, must start and end with a letter. A letter can be followed by one of the allowed delimiters, which are: space, hyphen, apostrophe (U+0027). 2-60 characters.
 - REQ-4-2. **Phone number:** starts with '+', then one country code digit (1-9), followed by 6 to 14 digits.
 - REQ-4-3. **Input fields:** borders have live input validation, i.e. when input data is not valid or empty input fields have solid border in red color. If the data input is valid, borders have green color.
 - REQ-4-4. **Input fields** both are mandatory to fill.
@@ -48,7 +48,7 @@
 	+ REQ-6-4-1. if any field is empty: "Field cannot be empty".
 	+ REQ-6-4-2. if full name has not enough symbols: "Minimum 2 chars".
 	+ REQ-6-4-3. if full name has too many symbols: "Maximum 60 chars".
-	+ REQ-6-4-4. if full name does not meet the regular  expression requirement: "Name can start and end with a letter, can contain not more than one space, hyphen or quotation mark between".
+	+ REQ-6-4-4. if full name does not meet the regular  expression requirement: "Name can start and end with a letter, can contain not more than one space, hyphen or apostrophe between".
 	+ REQ-6-4-5. if phone number does not meet the regular  expression requirement: "Enter a valid international number, e.g. +14155552671 (starts with +, 7-15 digits, no spaces)".
 
 ### REQ-7. Contacts table

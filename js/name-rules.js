@@ -3,7 +3,7 @@
 // Regular expression: Only english letters, space char and hyphen, 2-50 chars
 // const NAME_REGEX = /^[A-Za-z\-\s]{2,50}$/;
 
-// Updated regExp supports Unicode, \-\, \'\, \s\
+// Updated regExp supports Unicode letters, can contain not more than one space, hyphen or apostrophe between, 2-60 chars
 const NAME_REGEX = /^(?=.{2,60}$)\p{L}+(?:[ '\u{2019}-]\p{L}+)*$/u;
 
 
@@ -21,7 +21,7 @@ function validateFullName(value) {
     if (value.length > 60)
         return "Maximum 60 chars";
     if (!NAME_REGEX.test(value))
-        return "Name can start and end with a letter, can contain not more than one space, hyphen or quotation mark between";
+        return "Name can start and end with a letter, can contain not more than one space, hyphen or apostrophe between";
     return null;
 }
 
