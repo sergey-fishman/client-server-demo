@@ -394,7 +394,7 @@ The checklist was run on build 1.0 on 29-30 September 2026 (Windows 11, Chrome 1
 
 Bug reports are kept on the *bug reports* tab of the same Google Sheets document. A report contains: ID, title, build, environment, steps to reproduce, expected result, actual result, **severity** (how badly the defect affects the system), **priority** (how urgently it must be fixed), status, attachments (screenshot, response body) and a link to the failed checklist item or test case.
 
-The statuses follow a standard defect life cycle: New, In progress, Fixed, Retest, Closed (or Reopened if the fix does not work, or Rejected / Duplicate).
+The statuses follow a standard defect life cycle: New, In progress, Fixed, Closed (or Reopened if the fix does not work, or Rejected / Duplicate).
 
 Example, based on the failed item CL-21:
 
