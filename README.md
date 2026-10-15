@@ -28,7 +28,8 @@ The main purpose is to build my own testing sandbox where I can test input field
 1. [Requirements](test_docs/requirements.md)
 2. [API Docs](test_docs/client-server-demo-api.md)
 3. [Test Plan](test_docs/test_plan.md)
-4. [Test Design, Test Runs and Bug Reports (Google Sheets)](https://docs.google.com/spreadsheets/d/1El2wjPAUodW4dijbkz-NU5M9AfLfp7HZYnebpSTQmz8/edit?usp=sharing)
+4. [GUI Test Design, Test Runs and Bug Reports (Google Sheets)](https://docs.google.com/spreadsheets/d/1El2wjPAUodW4dijbkz-NU5M9AfLfp7HZYnebpSTQmz8/edit?usp=sharing)
+5. [API Checklist and Bug Reports (Google Sheets)](https://docs.google.com/spreadsheets/d/1tTTi3WXtixVrbqmwCPvTBO24lwYFg2pjWlbRRYaAgng/edit?usp=sharing)
 5. [Postman collection (JSON)](test_docs/localhost.postman_collection.json)
 6. [Automated GUI tests (separate repository)](https://github.com/sergey-fishman/client-server-demo_auto)
 

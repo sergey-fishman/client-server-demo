@@ -8,7 +8,7 @@
   },
   "item": [
     {
-      "name": "contacts positive",
+      "name": "Positive default",
       "item": [
         {
           "name": "200 Get contacts",
@@ -18,7 +18,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\nconst response = pm.response.json();\r\npm.test(\"Response contains 'contacts' array\", function () {\r\n    pm.expect(response).to.have.property('contacts');\r\n});\r\npm.test(\"Response is an array\", function () {\r\n    pm.expect(response.contacts).to.be.an('array');\r\n});\r\npm.test(\"Response content-type is application/json\", function () {\r\n    pm.response.to.have.header('Content-Type', 'application/json');\r\n    });"
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\nconst response = pm.response.json();\r\npm.test(\"Response contains 'contacts' array\", function () {\r\n    pm.expect(response).to.have.property('contacts');\r\n});\r\npm.test(\"Response is an array\", function () {\r\n    pm.expect(response.contacts).to.be.an('array');\r\n});"
                 ]
               }
             }
@@ -57,7 +57,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"full_name\": \"{{fullName}}\",\r\n    \"phone_number\": \"{{phoneNumber}}\"\r\n}",
+              "raw": "{\r\n    \"full_name\": \"Alexander-ArnorldO'Connor\",\r\n    \"phone_number\": \"+791547633\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -79,50 +79,6 @@
         },
         {
           "name": "200 Update contact",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\nconst responseBody = pm.response.json();\nconst requestBody = JSON.parse(pm.request.body.raw);\npm.test(\"Request full_name trimmed equals response full_name\", function () {\n    pm.expect(requestBody.full_name.trim()).to.eql(responseBody.full_name);\n});\npm.test(\"Response has status success\", function () {\n    pm.expect(responseBody.status).to.eql(\"success\");\n});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"full_name\": \"{{fullName}}\",\r\n    \"phone_number\": \"{{phoneNumber}}\" \r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ],
-              "query": [
-                {
-                  "key": "id",
-                  "value": "{{id}}"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "200 Update contact 0 affected rows",
           "event": [
             {
               "listen": "test",
@@ -206,10 +162,1160 @@
           },
           "response": []
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Response content-type is application/json\", function () {\r\n    pm.response.to.have.header('Content-Type', 'application/json');\r\n    });"
+            ]
+          }
+        }
       ]
     },
     {
-      "name": "contacts negative",
+      "name": "Positive extended",
+      "item": [
+        {
+          "name": "200 Get contacts with id parameter",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\nconst response = pm.response.json();\r\npm.test(\"Response contains 'contacts' array\", function () {\r\n    pm.expect(response).to.have.property('contacts');\r\n});\r\npm.test(\"Response is an array\", function () {\r\n    pm.expect(response.contacts).to.be.an('array');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php/{{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "201 Create a new contact with trim check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\nconst response = pm.response.json();\r\npm.test(\"Response status is success\", function () {\r\n    pm.expect(response.status).to.eql(\"success\");\r\n});\r\n\r\npm.collectionVariables.set(\"id\", response.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \" Name with spaces \",\r\n    \"phone_number\": \" +7195483 \"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "201 Create a new contact with very maximum lenghts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\nconst response = pm.response.json();\r\npm.test(\"Response status is success\", function () {\r\n    pm.expect(response.status).to.eql(\"success\");\r\n});\r\n\r\npm.collectionVariables.set(\"id\", response.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \" A very long name up sixty characters long after trimming-fun \",\r\n    \"phone_number\": \" +719548374396371 \"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "201 Create a new contact with Unicode",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\nconst response = pm.response.json();\r\npm.test(\"Response status is success\", function () {\r\n    pm.expect(response.status).to.eql(\"success\");\r\n});\r\n\r\npm.collectionVariables.set(\"id\", response.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"ירושלים\",\r\n    \"phone_number\": \"+719548374396371\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "200 Update contact with trim check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\nconst responseBody = pm.response.json();\nconst requestBody = JSON.parse(pm.request.body.raw);\npm.test(\"Request full_name trimmed equals response full_name\", function () {\n    pm.expect(requestBody.full_name.trim()).to.eql(responseBody.full_name);\n});\npm.test(\"Response has status success\", function () {\n    pm.expect(responseBody.status).to.eql(\"success\");\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \" Name with spaces update \",\r\n    \"phone_number\": \" +7915321 \" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "200 Update contact with very maximum lengths",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\nconst responseBody = pm.response.json();\nconst requestBody = JSON.parse(pm.request.body.raw);\npm.test(\"Request full_name trimmed equals response full_name\", function () {\n    pm.expect(requestBody.full_name.trim()).to.eql(responseBody.full_name);\n});\npm.test(\"Response has status success\", function () {\n    pm.expect(responseBody.status).to.eql(\"success\");\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \" A-very-long-name-up-sixty-characters-long-after trimming-fun \",\r\n    \"phone_number\": \" +719548374396371 \"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "200 Update contact with very maximum lengths Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\nconst responseBody = pm.response.json();\nconst requestBody = JSON.parse(pm.request.body.raw);\npm.test(\"Request full_name trimmed equals response full_name\", function () {\n    pm.expect(requestBody.full_name.trim()).to.eql(responseBody.full_name);\n});\npm.test(\"Response has status success\", function () {\n    pm.expect(responseBody.status).to.eql(\"success\");\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \" A-very-long-name-up-sixty-characters-long-after trimming-fun \",\r\n    \"phone_number\": \" +719548374396371 \"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "200 Update contact with very maximum lengths Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\nconst responseBody = pm.response.json();\nconst requestBody = JSON.parse(pm.request.body.raw);\npm.test(\"Request full_name trimmed equals response full_name\", function () {\n    pm.expect(requestBody.full_name.trim()).to.eql(responseBody.full_name);\n});\npm.test(\"Response has status success\", function () {\n    pm.expect(responseBody.status).to.eql(\"success\");\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"ירושלים\",\r\n    \"phone_number\": \" +719548374396371 \"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "200 Delete contact",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\nconst id = pm.collectionVariables.get(\"id\");\r\nconst responseBody = pm.response.json();\r\npm.test(\"Response id equals id\", function () {\r\n    pm.expect(responseBody.id).to.eql(id);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Response content-type is application/json\", function () {\r\n    pm.response.to.have.header('Content-Type', 'application/json');\r\n    });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Negative invalid data",
+      "item": [
+        {
+          "name": "422 Full name is empty string",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Input fields cannot be empty\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"\",\r\n    \"phone_number\": \"macXml\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Full name is null",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Missing required field(s): full_name\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": null,\r\n    \"phone_number\": \"+791633456\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Full name wrong format",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"AlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevetAlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevetAlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevetAlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevetAlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevetAlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevetAlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevetAlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevetAlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevetAlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevet\",\r\n    \"phone_number\": \"+7715107555\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Full Name and Phone Number values is not a string type",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": {\"AlexanderArnold\": \"value\"},\r\n    \"phone_number\": 915147222\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Phone number is empty string",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Input fields cannot be empty\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"Jason\",\r\n    \"phone_number\": \"\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Phone number is null",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Missing required field(s): full_name\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"Alexander\",\r\n    \"phone_number\": null \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Phone number wrong format",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"fullName\",\r\n    \"phone_number\": \"++79153867\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Update Full name is empty string",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Input fields cannot be empty\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"\",\r\n    \"phone_number\": \"+8334578325\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Update Full name is null",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Missing required field(s): full_name\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": null,\r\n    \"phone_number\": \"+739495945\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Update Full name is wrong format",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \" A \",\r\n    \"phone_number\": \"+7715107555\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Update Full name and Phone number are not string type",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": [1,2,3,4,5],\r\n    \"phone_number\": 3.14\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Update Phone number is empty string",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Input fields cannot be empty\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"alex\",\r\n    \"phone_number\": \"\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Update Phone number is wrong format",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"Alexa\",\r\n    \"phone_number\": \"+e739495945\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Update Phone number is null",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Missing required field(s): phone_number\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"Alexa\",\r\n    \"phone_number\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Update Contact id not positive integer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Query parameter 'id' must be a positive\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"Alexa\",\r\n    \"phone_number\": \"+8473747495\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id=N",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "N"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Delete Contact id not positive integer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});\r\npm.test(\"Response body contains error message\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Query parameter 'id' must be a positive\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"Alexa\",\r\n    \"phone_number\": \"+8473747495\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id=0",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Negative destructive",
       "item": [
         {
           "name": "405 Get contacts Method not allowed",
@@ -241,36 +1347,7 @@
           "response": []
         },
         {
-          "name": "404 Get contacts invalid addess",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseURL}}/api/contact.php",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contact.php"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "400 invalid json object",
+          "name": "400 Create contact with invalid json object",
           "event": [
             {
               "listen": "test",
@@ -311,7 +1388,54 @@
           "response": []
         },
         {
-          "name": "415 content type xml",
+          "name": "400 Update contact with invalid json object",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\npm.test(\"Status code name has string 'Bad Request'\", function () {\r\n    pm.response.to.have.status(\"Bad Request\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"Jason\",\r\n    \"phone_number\": \"{{phoneNumber}}\"\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "415 Create contact content type xml",
           "event": [
             {
               "listen": "test",
@@ -346,6 +1470,53 @@
               "path": [
                 "api",
                 "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "415 Update contact content type xml",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 415\", function () {\r\n    pm.response.to.have.status(415);\r\n});\r\npm.test(\"Status code name has string 'Unsupported Media Type'\", function () {\r\n    pm.response.to.have.status(\"Unsupported Media Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"xmvalidl\",\r\n    \"phone_number\": \"macXml\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
               ]
             }
           },
@@ -475,7 +1646,7 @@
           "response": []
         },
         {
-          "name": "422 body is not a json object",
+          "name": "422 Create contact body is not a json object",
           "event": [
             {
               "listen": "test",
@@ -510,6 +1681,82 @@
               "path": [
                 "api",
                 "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "422 Updatecontact body is not a json object",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});\r\npm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\r\n    {\r\n        \"full_name\": \"soap\",\r\n        \"phone_number\": \"macArray\"\r\n    }\r\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "404 Get contacts invalid addess",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/contact.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contact.php"
               ]
             }
           },
@@ -563,47 +1810,6 @@
           "response": []
         },
         {
-          "name": "422 id parameter is not set",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});\r\npm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});"
-                ]
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disabledSystemHeaders": {}
-          },
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"full_name\": \"soap\",\r\n    \"phone_number\": \"macArray\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "404 id not found delete",
           "event": [
             {
@@ -640,239 +1846,28 @@
             }
           },
           "response": []
-        },
-        {
-          "name": "422 id parameter is not set delete",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});\r\npm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});"
-                ]
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disabledSystemHeaders": {}
-          },
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ]
-            }
-          },
-          "response": []
         }
       ]
     },
     {
-      "name": "contacts negative data validation",
+      "name": "Other",
       "item": [
         {
-          "name": "422 invalid name pattern",
+          "name": "503 Database is unavailable",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});"
+                  "pm.test(\"Status code is 503\", function () {\r\n    pm.response.to.have.status(503);\r\n});"
                 ]
               }
             }
           ],
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"full_name\": \"AlexanderArnoldJeffersonOConnorMcGregorTheodorLincolnRoosevet\",\r\n    \"phone_number\": \"+7715107555\" \r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "422 invalid phone pattern",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"full_name\": \"{{fullName}}\",\r\n    \"phone_number\": \"+{{phoneNumber}}\" \r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php?",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ],
-              "query": [
-                {
-                  "key": "",
-                  "value": ""
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "422 empty full name",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});\r\npm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});"
-                ]
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disabledSystemHeaders": {}
-          },
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/xml",
-                "disabled": true
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"full_name\": \"\",\r\n    \"phone_number\": \"macXml\" \r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "422 empty phone number",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});\r\npm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});"
-                ]
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disabledSystemHeaders": {}
-          },
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"full_name\": \"Jason\",\r\n    \"phone_number\": \"\" \r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "422 values not type string",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"full_name\": \"AlexanderArnold\",\r\n    \"phone_number\": 915147222\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{baseURL}}/api/contacts.php",
               "host": [

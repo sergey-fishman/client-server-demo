@@ -52,6 +52,7 @@ Allow a User to create contacts through the contact form, view them in a table o
     - REQ-3-2-3. The JSON value must be an object. An array, string, number, boolean or `null` results in status 422 and the body `{"error":"JSON body must be an object"}`.
     - REQ-3-2-4. Both `full_name` and `phone_number` are required. A missing field or a field with the value `null` results in status 422, the body `{"error":"Missing required field(s): [...]}` and lists all missing fields.
     - REQ-3-2-5. Both fields must be strings. Otherwise the response has status 422 and the body `{"error":"Field(s) must be of type string:[...]}` and lists all fields of the wrong type.
+	- REQ-3-2-6. Both field cannot be empty strings. Otherwise the response has status 422 and the body `{"error":"Input fields cannot be empty"}`
 - REQ-3-3. **Server-side data validation** (POST and PUT).
     - REQ-3-3-1. Leading and trailing space characters are removed from both values before validation (REQ-4-5).
     - REQ-3-3-2. `full_name` must meet REQ-4-1. Otherwise the response has status 422 and the body `{"error":"Name field supports letters, spaces, hyphens and apostrophes, 60 chars max"}`. The same message is used for a name that is too short, too long or in a wrong format.
@@ -61,7 +62,7 @@ Allow a User to create contacts through the contact form, view them in a table o
     - REQ-3-4-2. A missing, empty, zero, negative, decimal or non-numeric `id` results in status 422 and the body `{"error":"Query parameter 'id' must be a positive integer"}`.
 - REQ-3-5. **Responses and status codes.**
     - REQ-3-5-1. An unsupported HTTP method (anything except GET, POST, PUT and DELETE) results in status 405, the header `Allow: GET, POST, PUT, DELETE` and the body `{"error":"Method not allowed"}`.
-    - REQ-3-5-2. If the database is unavailable or a database operation fails, the response has status 500 and a JSON error body.
+    - REQ-3-5-2. If the database is unavailable, the response has status 503 and a JSON error body.
 - REQ-3-6. **Data integrity.**
     - REQ-3-6-1. Values up to the maximum lengths (REQ-1-1-2, REQ-1-1-3) are stored and returned in full, without truncation.
     - REQ-3-6-2. Unicode letters are stored and returned unchanged.
