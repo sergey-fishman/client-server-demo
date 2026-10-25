@@ -371,13 +371,13 @@ Test design techniques used in the project:
 
 ### Test Automation
 
-The automated GUI tests of the form and the table are written in Java with **Selenium WebDriver** and live in a [separate repository](https://github.com/sergey-fishman/client-server-demo_auto). The project uses **TestNG** as the test framework and **Gradle** as the build tool.
+The automated GUI tests of the form and the table are written in Java with **Selenium WebDriver** and live in a [separate repository](https://github.com/sergey-fishman/client-server-demo_auto) together with the automated API tests. The project uses **TestNG** as the test framework and **Gradle** as the build tool.
 
 - **Coverage.** All GUI test cases are automated. The checklist is run manually.
 - **Data-driven testing.** For the test cases that use test data, I designed and implemented a TestNG Data Provider class.
 - **Smoke tests.** I developed a group of smoke tests that can be run with Gradle tasks in different browsers (**cross-browser testing**: Chrome, Firefox and Edge).
 - **Logging.** A TestNG listener combined with a logger makes it easy to track and log test runs.
-- **API tests.** Automated API tests are planned. For now, the API is covered by the Postman collection described below.
+- **API tests.** Automated API tests are written with **Java REST Assured** library. These tests are based on the **Postman collection**, described in the next paragraph.
 
 ### API Testing
 
@@ -385,7 +385,7 @@ For API testing, I created a **Postman collection** ([exported JSON](test_docs/l
 
 - **Positive (happy) path.** The main features used normally and with valid data: getting the contact list, creating a contact, updating a contact, deleting a contact, and updating a contact with the same data as before (the case of 0 affected rows, see the note on `handlePut` above).
 - **Destructive path.** Incorrect client behavior (misuse of the API): a request method that is not allowed, an invalid `Content-Type`, a broken or incomplete JSON object, a missing `id` parameter and so on.
-- **Negative data validation path.** Server-side input validation. At the moment, it covers only contact creation (`POST`); contact update (`PUT`) is planned.
+- **Negative data validation path.** Server-side input validation.
 
 ### Test Execution
 

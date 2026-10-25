@@ -8,7 +8,7 @@
   },
   "item": [
     {
-      "name": "Positive default",
+      "name": "Positive default (smoke) [4]",
       "item": [
         {
           "name": "200 Get contacts",
@@ -78,7 +78,7 @@
           "response": []
         },
         {
-          "name": "200 Update contact",
+          "name": "200 Update contact by id",
           "event": [
             {
               "listen": "test",
@@ -122,7 +122,7 @@
           "response": []
         },
         {
-          "name": "200 Delete contact",
+          "name": "200 Delete contact by id",
           "event": [
             {
               "listen": "test",
@@ -136,13 +136,7 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/xml",
-                "disabled": true
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
               "host": [
@@ -176,10 +170,10 @@
       ]
     },
     {
-      "name": "Positive extended",
+      "name": "Positive extended [8]",
       "item": [
         {
-          "name": "200 Get contacts with id parameter",
+          "name": "200 Get contacts with query param id ignored",
           "event": [
             {
               "listen": "test",
@@ -195,14 +189,19 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseURL}}/api/contacts.php/{{id}}",
+              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
               "host": [
                 "{{baseURL}}"
               ],
               "path": [
                 "api",
-                "contacts.php",
-                "{{id}}"
+                "contacts.php"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{id}}"
+                }
               ]
             }
           },
@@ -367,7 +366,7 @@
           "response": []
         },
         {
-          "name": "200 Update contact with very maximum lengths",
+          "name": "200 Update contact name max length",
           "event": [
             {
               "listen": "test",
@@ -411,51 +410,7 @@
           "response": []
         },
         {
-          "name": "200 Update contact with very maximum lengths Copy",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\nconst responseBody = pm.response.json();\nconst requestBody = JSON.parse(pm.request.body.raw);\npm.test(\"Request full_name trimmed equals response full_name\", function () {\n    pm.expect(requestBody.full_name.trim()).to.eql(responseBody.full_name);\n});\npm.test(\"Response has status success\", function () {\n    pm.expect(responseBody.status).to.eql(\"success\");\n});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"full_name\": \" A-very-long-name-up-sixty-characters-long-after trimming-fun \",\r\n    \"phone_number\": \" +719548374396371 \"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ],
-              "query": [
-                {
-                  "key": "id",
-                  "value": "{{id}}"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "200 Update contact with very maximum lengths Copy",
+          "name": "200 Update contact phone max length",
           "event": [
             {
               "listen": "test",
@@ -497,47 +452,6 @@
             }
           },
           "response": []
-        },
-        {
-          "name": "200 Delete contact",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\nconst id = pm.collectionVariables.get(\"id\");\r\nconst responseBody = pm.response.json();\r\npm.test(\"Response id equals id\", function () {\r\n    pm.expect(responseBody.id).to.eql(id);\r\n});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/xml",
-                "disabled": true
-              }
-            ],
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php?id={{id}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ],
-              "query": [
-                {
-                  "key": "id",
-                  "value": "{{id}}"
-                }
-              ]
-            }
-          },
-          "response": []
         }
       ],
       "event": [
@@ -553,7 +467,7 @@
       ]
     },
     {
-      "name": "Negative invalid data",
+      "name": "Negative invalid data [16]",
       "item": [
         {
           "name": "422 Full name is empty string",
@@ -1249,6 +1163,47 @@
           "response": []
         },
         {
+          "name": "422 Create contact with both null values",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});\r\npm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": null,\r\n    \"phone_number\": null \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/contacts.php",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "contacts.php"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "422 Delete Contact id not positive integer",
           "event": [
             {
@@ -1315,7 +1270,7 @@
       ]
     },
     {
-      "name": "Negative destructive",
+      "name": "Negative valid data + destructive [13]",
       "item": [
         {
           "name": "405 Get contacts Method not allowed",
@@ -1605,47 +1560,6 @@
           "response": []
         },
         {
-          "name": "422 null values",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});\r\npm.test(\"Status code name has string 'Unprocessable Entity'\", function () {\r\n    pm.response.to.have.status(\"Unprocessable Entity\");\r\n});"
-                ]
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disabledSystemHeaders": {}
-          },
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"full_name\": null,\r\n    \"phone_number\": null \r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseURL}}/api/contacts.php",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "contacts.php"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "422 Create contact body is not a json object",
           "event": [
             {
@@ -1850,7 +1764,7 @@
       ]
     },
     {
-      "name": "Other",
+      "name": "Other [1]",
       "item": [
         {
           "name": "503 Database is unavailable",
