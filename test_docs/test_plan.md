@@ -83,5 +83,8 @@ The main approach is black-box testing; white-box techniques (code review) are u
 		*   *Contingency:* Reduce the scope of non-functional testing and prioritize core functional regression test cases.
 
 ## 8. Deliverables
-* Relevant set of test cases
+* Relevant set of test cases and checklist
+* Test dataset for test cases executions
+* Test cases run log in cycles
 * List of identified bugs
+* Test summary report

@@ -409,6 +409,8 @@ Example, based on the failed item CL-21:
 | Severity / Priority | Minor / Medium |
 | Status | New |
 
+## Test summary report
+As per November, 2026, the test report covers GUI test process. In summary, Build 1.0 of client-server-demo was tested manually through the GUI. 39 checklist items and 94 test case runs were executed (17 of 17 test cases have at least one run). 88 runs passed and 6 failed; checklist items failed: 4. 5 distinct defects were reported (2 more were rejected as duplicates) and only 1 trivial defect is in progress. 4 defects were fixed. No critical or major defects remain opened. Result against the assumed exit criteria: PASSED. To see more details, please follow this link [Google Sheets document](https://docs.google.com/spreadsheets/d/1El2wjPAUodW4dijbkz-NU5M9AfLfp7HZYnebpSTQmz8/edit?usp=sharing).
 ## Conclusions
 
 Building this application let me look at web development from the other side of the screen, and it gave me a lot of practical material for testing.
@@ -427,5 +429,4 @@ Building this application let me look at web development from the other side of 
 - `submit-handler.js` does not handle network errors and shows the raw JSON response to the user.
 - The contacts list has no pagination or search.
 - Testing was performed by one tester, so there is no independent review. The full set of tests is run in desktop Chrome only; other browsers are covered by the smoke tests.
-- Automated API tests and negative data validation tests for the `PUT` request are not implemented yet.
 - Ideas for the test design: add decision table tests (valid/invalid name and phone combinations on submit) and state transition tests (view, edit, save, cancel and delete in the Contacts table).
