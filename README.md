@@ -410,7 +410,7 @@ Example, based on the failed item CL-21:
 | Status | New |
 
 ## Test summary report
-As per November, 2026, the test report covers GUI test process. In summary, Build 1.0 of client-server-demo was tested manually through the GUI. 39 checklist items and 94 test case runs were executed (17 of 17 test cases have at least one run). 88 runs passed and 6 failed; checklist items failed: 4. 5 distinct defects were reported (2 more were rejected as duplicates) and only 1 trivial defect is in progress. 4 defects were fixed. No critical or major defects remain opened. Result against the assumed exit criteria: PASSED. To see more details, please follow this link [Google Sheets document](https://docs.google.com/spreadsheets/d/1El2wjPAUodW4dijbkz-NU5M9AfLfp7HZYnebpSTQmz8/edit?usp=sharing).
+As per November, 2026, the test report covers GUI test process. In summary, Build 1.0 of client-server-demo was tested manually and with automated Java tests through the GUI. 39 checklist items and 94 test case runs were executed (17 of 17 test cases have at least one run). 88 runs passed and 6 failed; checklist items failed: 4. 5 distinct defects were reported (2 more were rejected as duplicates) and only 1 trivial defect is in progress. 4 defects were fixed. No critical or major defects remain opened. Result against the assumed exit criteria: PASSED. To see more details, please follow this link [Google Sheets document](https://docs.google.com/spreadsheets/d/1El2wjPAUodW4dijbkz-NU5M9AfLfp7HZYnebpSTQmz8/edit?usp=sharing).
 ## Conclusions
 
 Building this application let me look at web development from the other side of the screen, and it gave me a lot of practical material for testing.
